@@ -150,19 +150,29 @@ def test_decoder():
 
 # 9: Transformer
 def test_transformer():
-    d_model = 1024  # Dimensionality of embeddings
-    num_heads = 16  # Number of attention heads
-    d_ff = 4096  # Feed-forward network dimensionality
-    num_layers = 24  # Number of layers in the encoder and decoder
-    max_seq_length = 512  # Maximum sequence length
+    d_model = 12288  # Dimensionality of embeddings
+    num_heads = 96  # Number of attention heads
+    d_ff = 49152  # Feed-forward network dimensionality
+    num_layers = 96  # Number of layers in the encoder and decoder
+    max_seq_length = 2048  # Maximum sequence length
     batch_size = 16  # Batch size
-    seq_length = 512  # Input sequence length
+    seq_length = 2048  # Input sequence length
 
-    transformer = Transformer(d_model, num_heads, d_ff, num_layers, max_seq_length).cuda()
+    # Initialize the transformer model
+    transformer = Transformer(d_model, num_heads, d_ff, num_layers, max_seq_length)
 
+    # If multiple GPUs are available, wrap the model using DataParallel
+    if torch.cuda.device_count() > 1:
+        print(f"Using {torch.cuda.device_count()} GPUs")
+        transformer = torch.nn.DataParallel(transformer)
+
+    transformer = transformer.cuda()  # Move model to GPU(s)
+
+    # Random input for testing
     encoder_input = torch.rand(batch_size, seq_length, d_model).cuda()
     decoder_input = torch.rand(batch_size, seq_length, d_model).cuda()
 
+    # Forward pass
     transformer_output = transformer.forward(encoder_input, decoder_input)
 
     print("Transformer Output:\n", transformer_output)
