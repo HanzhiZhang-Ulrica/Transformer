@@ -150,13 +150,13 @@ def test_decoder():
 
 # 9: Transformer
 def test_transformer():
-    d_model = 12288  # Dimensionality of embeddings
-    num_heads = 96  # Number of attention heads
-    d_ff = 49152  # Feed-forward network dimensionality
-    num_layers = 96  # Number of layers in the encoder and decoder
-    max_seq_length = 2048  # Maximum sequence length
+    d_model = 1024  # Dimensionality of embeddings
+    num_heads = 16  # Number of attention heads
+    d_ff = 4096  # Feed-forward network dimensionality
+    num_layers = 24  # Number of layers in the encoder and decoder
+    max_seq_length = 512  # Maximum sequence length
     batch_size = 16  # Batch size
-    seq_length = 2048  # Input sequence length
+    seq_length = 512  # Input sequence length
 
     # Initialize the transformer model
     transformer = Transformer(d_model, num_heads, d_ff, num_layers, max_seq_length)
